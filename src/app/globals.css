@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-behavior: smooth; }
+body { @apply bg-sand text-ink font-sans antialiased; }
+h1, h2, h3 { @apply font-serif; }
+
+/* hero: slow zoom on the active slide (Ken Burns) */
+@keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.12); } }
+.kenburns { animation: kenburns 9s ease-out forwards; }
+
+/* hero text rising in */
+@keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+.rise { opacity: 0; animation: rise .9s cubic-bezier(.2,.7,.2,1) forwards; }
+
+/* scroll reveal: hidden until <Reveal> adds .is-visible as the element enters the viewport */
+.reveal, .reveal-left, .reveal-right, .reveal-zoom, .reveal-mask {
+  transition: opacity .8s ease, transform .9s cubic-bezier(.2,.7,.2,1), clip-path 1.2s cubic-bezier(.7,0,.2,1);
+}
+.reveal { opacity: 0; transform: translateY(32px); }
+.reveal-left { opacity: 0; transform: translateX(-40px); }
+.reveal-right { opacity: 0; transform: translateX(40px); }
+.reveal-zoom { opacity: 0; transform: scale(.92); }
+.reveal-mask { clip-path: inset(100% 0 0 0); } /* wipes upward, for images */
+.reveal.is-visible, .reveal-left.is-visible, .reveal-right.is-visible, .reveal-zoom.is-visible { opacity: 1; transform: none; }
+.reveal-mask.is-visible { clip-path: inset(0); }
+
+/* image zoom inside a clipped frame */
+.zoom-frame { overflow: hidden; }
+.zoom-frame img { transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+.zoom-frame:hover img { transform: scale(1.08); }
+
+.btn-gold { @apply inline-flex items-center justify-center bg-gold text-ink font-medium uppercase tracking-[.18em] text-xs px-7 py-3.5 transition hover:bg-gold-dark hover:text-white; }
+.btn-outline { @apply inline-flex items-center justify-center border border-white/70 text-white uppercase tracking-[.18em] text-xs px-7 py-3.5 transition hover:bg-white hover:text-ink; }
+.field { @apply w-full border border-ink/15 bg-white px-4 py-3 text-sm outline-none focus:border-gold; }
+.label { @apply block text-[11px] uppercase tracking-[.2em] text-ink/60 mb-1.5; }
+
+/* Dashboard interface text stays slightly larger for staff readability. */
+.dashboard-shell { font-size: 15px; }
+.dashboard-shell table { font-size: 15px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kenburns, .rise { animation: none; opacity: 1; }
+  .reveal, .reveal-left, .reveal-right, .reveal-zoom, .reveal-mask { opacity: 1; transform: none; clip-path: none; transition: none; }
+}
